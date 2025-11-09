@@ -1,0 +1,268 @@
+.admin-container {
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 30px;
+    width: 100%;
+  }
+  
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid #e9ecef;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .admin-title h1 {
+    color: #2c3e50;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  
+  .admin-title p {
+    color: #6c757d;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+  }
+  
+  .admin-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    min-width: 120px;
+  }
+  
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .btn:active {
+    transform: translateY(0);
+  }
+  
+  .btn-warning {
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    color: white;
+  }
+  
+  .btn-danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+  }
+  
+  .btn-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+  }
+  
+  .btn-secondary {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: white;
+  }
+  
+  .btn-info {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: white;
+  }
+  
+  .btn-ausente {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-ausente:hover {
+    background: linear-gradient(135deg, #138496, #117a8b);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
+  }
+  
+  .usuarios-section {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+  }
+  
+  .usuarios-section h3 {
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  .sem-usuarios {
+    text-align: center;
+    color: #6c757d;
+    padding: 40px;
+    font-style: italic;
+    font-size: 16px;
+  }
+  
+  .tabela-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+  }
+  
+  .tabela-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: white;
+  }
+  
+  .tabela-usuarios th {
+    background: #2c3e50;
+    color: white;
+    padding: 18px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+  }
+  
+  .tabela-usuarios td {
+    padding: 16px;
+    border-bottom: 1px solid #f1f3f4;
+    color: #333;
+    background: white;
+  }
+  
+  .tabela-usuarios tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .tabela-usuarios tr:hover td {
+    background: #f8f9fa;
+  }
+  
+  .usuario-nome {
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  .usuario-cpf {
+    font-family: 'Courier New', monospace;
+    color: #495057;
+  }
+  
+  .usuario-partido {
+    color: #6c757d;
+    font-weight: 500;
+  }
+  
+  .badge-tipo {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .badge-tipo.administrador {
+    background: #f8d7da;
+    color: #dc3545;
+  }
+  
+  .badge-tipo.normal {
+    background: #d4edda;
+    color: #28a745;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 1200px) {
+    .admin-header {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .admin-actions {
+      justify-content: flex-start;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .admin-container {
+      padding: 20px;
+    }
+    
+    .admin-title h1 {
+      font-size: 24px;
+    }
+    
+    .admin-actions {
+      flex-direction: column;
+    }
+    
+    .btn {
+      min-width: auto;
+      width: 100%;
+    }
+    
+    .usuarios-section {
+      padding: 20px;
+    }
+    
+    .tabela-usuarios {
+      font-size: 13px;
+    }
+    
+    .tabela-usuarios th,
+    .tabela-usuarios td {
+      padding: 12px 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .admin-container {
+      padding: 15px;
+    }
+    
+    .usuarios-section {
+      padding: 15px;
+    }
+    
+    .tabela-usuarios {
+      font-size: 12px;
+    }
+    
+    .tabela-usuarios th,
+    .tabela-usuarios td {
+      padding: 10px 8px;
+    }
+    
+    .btn-ausente {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+  }

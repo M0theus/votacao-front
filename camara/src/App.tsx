@@ -37,6 +37,7 @@ const App: React.FC = () => {
             </ProtectedRoute>
           } />
           <Route path="/admin/usuarios" element={<GerenciarUsuarios />} />
+          <Route path="/admin/editar-usuario/:id" element={<EditarUsuario />} />
           {/* RESULTADO É PÚBLICO - SEM PROTECTED ROUTE */}
           <Route path="/resultado" element={<Resultado />} />
           <Route path="/editar-usuario" element={

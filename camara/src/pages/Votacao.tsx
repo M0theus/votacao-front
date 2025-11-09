@@ -2,12 +2,13 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { votacaoService } from '../services/votacaoService';
-import { useNavigate } from 'react-router-dom'; // IMPORTE O useNavigate
+import { useNavigate } from 'react-router-dom';
+import './Votacao.css';
 
 const Votacao: React.FC = () => {
   const [votando, setVotando] = useState(false);
   const { usuario, isAuthenticated } = useAuth();
-  const navigate = useNavigate(); // USE O HOOK
+  const navigate = useNavigate();
 
   const handleVoto = async (voto: 'SIM' | 'NAO') => {
     try {
@@ -21,56 +22,61 @@ const Votacao: React.FC = () => {
     }
   };
 
-  // FUNÇÃO PARA DEBUG - ADICIONE ESTA
   const handleIrParaAdmin = () => {
     console.log('=== CLICOU PARA IR PARA ADMIN ===');
     console.log('Usuario:', usuario);
     console.log('Tipo do usuario:', usuario?.tipo);
     console.log('isAuthenticated:', isAuthenticated);
-    
-    // Use navigate em vez de window.location.href
     navigate('/admin');
   };
 
   if (usuario?.tipo === 'ADMINISTRADOR') {
     return (
-      <div>
-        <h2>Painel Administrativo</h2>
-        <p>Como administrador, você pode acessar o painel de controle.</p>
-        {/* MUDE PARA USAR A FUNÇÃO */}
-        <button onClick={handleIrParaAdmin}>
-          Ir para Painel Admin
-        </button>
+      <div className="votacao-container">
+        <div className="votacao-card">
+          <h2 className="votacao-title">Painel Administrativo</h2>
+          <p className="votacao-subtitle">Como administrador, você pode acessar o painel de controle.</p>
+          <button onClick={handleIrParaAdmin} className="admin-button">
+            Ir para Painel Admin
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="votacao-container">
-      <h2>Votação</h2>
-      <p>Escolha sua opção:</p>
-      
-      <div className="botoes-voto">
-        <button 
-          onClick={() => handleVoto('SIM')} 
-          disabled={votando}
-          className="btn-sim"
-        >
-          SIM
-        </button>
-        <button 
-          onClick={() => handleVoto('NAO')} 
-          disabled={votando}
-          className="btn-nao"
-        >
-          NÃO
-        </button>
+      <div className="votacao-card">
+        <h2 className="votacao-title">Votação</h2>
+        <p className="votacao-subtitle">Escolha sua opção:</p>
+        
+        <div className="botoes-container">
+          <button 
+            onClick={() => handleVoto('SIM')} 
+            disabled={votando}
+            className={`btn-voto btn-sim ${votando ? 'btn-disabled' : ''}`}
+          >
+            <span className="btn-text">SIM</span>
+          </button>
+          
+          <button 
+            onClick={() => handleVoto('NAO')} 
+            disabled={votando}
+            className={`btn-voto btn-nao ${votando ? 'btn-disabled' : ''}`}
+          >
+            <span className="btn-text">NÃO</span>
+          </button>
+        </div>
+        
+        <div className="acoes-container">
+          <button 
+            onClick={() => navigate('/resultado')} 
+            className="btn-resultados"
+          >
+            Ver Resultados
+          </button>
+        </div>
       </div>
-      
-      {/* TAMBÉM CORRIJA ESTE PARA USAR navigate */}
-      <button onClick={() => navigate('/resultado')}>
-        Ver Resultados
-      </button>
     </div>
   );
 };

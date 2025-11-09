@@ -1,0 +1,358 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.resultado-container {
+  min-height: 100vh;
+  background: #f8f9fa;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.resultado-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 160px; /* Largura reduzida para o resumo */
+  gap: 15px;
+  height: 100%;
+  align-items: start;
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+  width: 100%;
+}
+
+/* Tabela - Ocupa a maior parte do espaço */
+.tabela-section {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.table-container {
+  overflow: hidden;
+  border-radius: 6px;
+  background: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabela-votos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  background: white;
+  table-layout: fixed;
+  height: 100%;
+}
+
+/* Definição das colunas com tamanhos proporcionais */
+.tabela-votos .col-usuario { width: 30%; }
+.tabela-votos .col-partido { width: 20%; }
+.tabela-votos .col-voto { width: 15%; }
+.tabela-votos .col-data { width: 35%; }
+
+.tabela-votos th {
+  background: #2c3e50;
+  color: white;
+  padding: 12px 8px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border: none;
+  position: sticky;
+  top: 0;
+}
+
+.tabela-votos td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #f1f3f4;
+  color: #333;
+  background: white;
+  height: 40px;
+  vertical-align: middle;
+}
+
+.tabela-votos tr:last-child td {
+  border-bottom: none;
+}
+
+.tabela-votos tr:hover td {
+  background: #f8f9fa;
+}
+
+/* Linhas vazias */
+.linha-vazia td {
+  background: #fafafa;
+  color: transparent;
+}
+
+.usuario-nome {
+  font-weight: 600;
+  color: #2c3e50;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 11px;
+}
+
+.usuario-partido {
+  color: #666;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 11px;
+}
+
+.data-voto {
+  color: #666;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Badge de Voto */
+.badge-voto {
+  color: white;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  display: inline-block;
+  min-width: 50px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+/* Resumo Lateral - Layout vertical empilhado */
+.resumo-lateral {
+  width: 100%;
+  height: fit-content;
+}
+
+.resumo-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espaçamento reduzido entre os itens */
+  width: 100%;
+}
+
+.resumo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  text-align: center;
+  min-height: 55px; /* Altura reduzida */
+  width: 100%;
+}
+
+.resumo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.resumo-item.sim {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: white;
+}
+
+.resumo-item.nao {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+}
+
+.resumo-item.ausente {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+}
+
+.resumo-item.total {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  color: white;
+}
+
+.resumo-content {
+  flex: 1;
+}
+
+.resumo-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 2px;
+  opacity: 0.9;
+}
+
+.resumo-valor {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* Estados */
+.sem-votos {
+  text-align: center;
+  color: #666;
+  padding: 40px;
+  font-style: italic;
+  font-size: 13px;
+  background: white;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.loading, .error-message, .no-data {
+  text-align: center;
+  padding: 50px 20px;
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #f8f9fa;
+}
+
+.error-message {
+  color: #e74c3c;
+  background: #fdf2f2;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  margin: 15px;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .main-layout {
+    grid-template-columns: 1fr 150px;
+    gap: 12px;
+  }
+  
+  .resumo-vertical {
+    gap: 6px;
+  }
+  
+  .resumo-item {
+    min-height: 50px;
+    padding: 8px 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .resultado-content {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .main-layout {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .resumo-lateral {
+    order: -1;
+  }
+  
+  .resumo-vertical {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .resumo-item {
+    flex: 1;
+    min-width: calc(50% - 4px);
+    min-height: 60px;
+  }
+  
+  .resumo-valor {
+    font-size: 16px;
+  }
+  
+  .resumo-label {
+    font-size: 9px;
+  }
+  
+  .tabela-votos {
+    font-size: 11px;
+  }
+  
+  .tabela-votos th,
+  .tabela-votos td {
+    padding: 10px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .resultado-content {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .card {
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .resumo-vertical {
+    gap: 6px;
+  }
+  
+  .resumo-item {
+    min-height: 50px;
+    padding: 6px 4px;
+  }
+  
+  .resumo-valor {
+    font-size: 14px;
+  }
+  
+  .resumo-label {
+    font-size: 8px;
+  }
+  
+  .tabela-votos th,
+  .tabela-votos td {
+    padding: 8px 4px;
+  }
+  
+  .badge-voto {
+    padding: 3px 6px;
+    font-size: 9px;
+    min-width: 45px;
+  }
+}

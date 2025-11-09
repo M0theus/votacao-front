@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { votacaoService } from '../services/votacaoService';
 import type { ResultadoVotacao, Votacao } from '../types';
+import './Resultado.css';
 
 const Resultado: React.FC = () => {
   const [resultado, setResultado] = useState<ResultadoVotacao | null>(null);
@@ -11,17 +12,11 @@ const Resultado: React.FC = () => {
 
   const carregarDados = async () => {
     try {
-      setLoading(true);
       setError('');
-      console.log('📊 Carregando dados públicos...');
-      
-      // Carrega resultados e votos simultaneamente
       const [resultadoData, votosData] = await Promise.all([
         votacaoService.obterResultado(),
         votacaoService.listarVotos()
       ]);
-      
-      console.log('✅ Dados carregados:', { resultadoData, votosData });
       
       setResultado(resultadoData);
       setVotos(votosData || []);
@@ -35,9 +30,13 @@ const Resultado: React.FC = () => {
 
   useEffect(() => {
     carregarDados();
+    
+    // Auto-atualiza a cada 5 segundos
+    const interval = setInterval(carregarDados, 5000);
+    
+    return () => clearInterval(interval);
   }, []);
 
-  // Função para formatar a data
   const formatarData = (dataString: string) => {
     try {
       const data = new Date(dataString);
@@ -47,199 +46,137 @@ const Resultado: React.FC = () => {
     }
   };
 
-  // Função para obter a cor do voto
   const getCorVoto = (voto: string) => {
     switch (voto) {
-      case 'SIM': return '#28a745'; // Verde
-      case 'NAO': return '#dc3545'; // Vermelho
-      case 'AUSENTE': return '#17a2b8'; // Azul claro
-      default: return '#6c757d'; // Cinza
+      case 'SIM': return '#27ae60';
+      case 'NAO': return '#e74c3c';
+      case 'AUSENTE': return '#3498db';
+      default: return '#95a5a6';
     }
   };
 
   if (loading) {
-    return <div className="container">Carregando resultados...</div>;
+    return (
+      <div className="resultado-container">
+        <div className="loading">Carregando resultados...</div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="container error">{error}</div>;
+    return (
+      <div className="resultado-container">
+        <div className="error-message">{error}</div>
+      </div>
+    );
   }
 
   if (!resultado) {
-    return <div className="container">Nenhum resultado disponível</div>;
+    return (
+      <div className="resultado-container">
+        <div className="no-data">Nenhum resultado disponível</div>
+      </div>
+    );
   }
 
-  const totalVotos = resultado.sim + resultado.nao;
-
   return (
-    <div className="container">
-      <h2>Resultado da Votação</h2>
-      
-      {/* Estatísticas */}
-      <div className="resultado-container">
-        <div className="estatisticas">
-          <div className="estatistica-item">
-            <h3>Votos SIM</h3>
-            <div 
-              className="numero" 
-              style={{ color: '#28a745', fontSize: '2.5em', fontWeight: 'bold' }}
-            >
-              {resultado.sim}
+    <div className="resultado-container">
+      <div className="resultado-content">
+        <div className="main-layout">
+          {/* Tabela de Votos */}
+          <div className="tabela-section">
+            <div className="card">
+              <div className="table-container">
+                {votos.length === 0 ? (
+                  <div className="sem-votos">
+                    Nenhum voto registrado ainda.
+                  </div>
+                ) : (
+                  <table className="tabela-votos">
+                    <thead>
+                      <tr>
+                        <th className="col-usuario">Usuário</th>
+                        <th className="col-partido">Partido</th>
+                        <th className="col-voto">Voto</th>
+                        <th className="col-data">Data/Hora</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {votos.map((voto: any) => {
+                        const nome = voto.usuarioNome || 'Usuário não encontrado';
+                        const partido = voto.usuarioPartido || voto.partido || 'N/A';
+                        const votoValue = voto.voto || 'INDEFINIDO';
+                        
+                        return (
+                          <tr key={voto.id}>
+                            <td className="usuario-nome">{nome}</td>
+                            <td className="usuario-partido">{partido}</td>
+                            <td>
+                              <span 
+                                className="badge-voto"
+                                style={{ backgroundColor: getCorVoto(votoValue) }}
+                              >
+                                {votoValue}
+                              </span>
+                            </td>
+                            <td className="data-voto">
+                              {formatarData(voto.dataVoto)}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                      {/* Linhas vazias para completar 14 */}
+                      {Array.from({ length: Math.max(0, 14 - votos.length) }).map((_, index) => (
+                        <tr key={`empty-${index}`} className="linha-vazia">
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
             </div>
           </div>
 
-          <div className="estatistica-item">
-            <h3>Votos NÃO</h3>
-            <div 
-              className="numero" 
-              style={{ color: '#dc3545', fontSize: '2.5em', fontWeight: 'bold' }}
-            >
-              {resultado.nao}
+          {/* Resumo da Votação - Lado direito empilhado */}
+          <div className="resumo-lateral">
+            <div className="card resumo-card">
+              <div className="resumo-vertical">
+                <div className="resumo-item sim">
+                  <div className="resumo-content">
+                    <div className="resumo-label">SIM</div>
+                    <div className="resumo-valor">{resultado.sim}</div>
+                  </div>
+                </div>
+                
+                <div className="resumo-item nao">
+                  <div className="resumo-content">
+                    <div className="resumo-label">NÃO</div>
+                    <div className="resumo-valor">{resultado.nao}</div>
+                  </div>
+                </div>
+
+                <div className="resumo-item ausente">
+                  <div className="resumo-content">
+                    <div className="resumo-label">AUSENTES</div>
+                    <div className="resumo-valor">{resultado.ausentes}</div>
+                  </div>
+                </div>
+
+                <div className="resumo-item total">
+                  <div className="resumo-content">
+                    <div className="resumo-label">TOTAL</div>
+                    <div className="resumo-valor">{resultado.totalUsuarios}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
-          <div className="estatistica-item">
-            <h3>Ausentes</h3>
-            <div 
-              className="numero" 
-              style={{ color: '#17a2b8', fontSize: '2.5em', fontWeight: 'bold' }}
-            >
-              {resultado.ausentes}
-            </div>
-          </div>
-
-          <div className="estatistica-item">
-            <h3>Total de Votos</h3>
-            <div 
-              className="numero" 
-              style={{ color: '#6c757d', fontSize: '2.5em', fontWeight: 'bold' }}
-            >
-              {resultado.totalUsuarios}
-            </div>
-          </div>
-        </div>
-
-        {/* Barra de progresso - Opcional, pode remover se quiser */}
-        {totalVotos > 0 && (
-          <div className="barra-progresso">
-            <div 
-              className="barra-sim" 
-              style={{ 
-                width: `${(resultado.sim / totalVotos) * 100}%`,
-                backgroundColor: '#28a745'
-              }}
-            >
-              SIM: {resultado.sim}
-            </div>
-            <div 
-              className="barra-nao" 
-              style={{ 
-                width: `${(resultado.nao / totalVotos) * 100}%`,
-                backgroundColor: '#dc3545'
-              }}
-            >
-              NÃO: {resultado.nao}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Lista de Votos Detalhados */}
-      <div className="lista-votos" style={{ marginTop: '40px' }}>
-        <h3>Votos Detalhados</h3>
-        
-        {votos.length === 0 ? (
-          <p>Nenhum voto registrado ainda.</p>
-        ) : (
-          <div className="tabela-votos">
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ backgroundColor: '#f8f9fa' }}>
-                  <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Usuário</th>
-                  <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Partido</th>
-                  <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Voto</th>
-                  <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Data/Hora</th>
-                </tr>
-              </thead>
-              <tbody>
-                {votos.map((voto) => {
-                  // Verificação de segurança para evitar erros
-                  const usuario = voto.usuario || {};
-                  const nome = usuario.nome || 'Usuário não encontrado';
-                  const partido = usuario.partido || 'N/A';
-                  const votoValue = voto.voto || 'INDEFINIDO';
-                  
-                  return (
-                    <tr key={voto.id} style={{ borderBottom: '1px solid #eee' }}>
-                      <td style={{ padding: '12px' }}>{nome}</td>
-                      <td style={{ padding: '12px' }}>{partido}</td>
-                      <td style={{ padding: '12px' }}>
-                        <span 
-                          style={{
-                            color: 'white',
-                            fontWeight: 'bold',
-                            padding: '6px 12px',
-                            borderRadius: '20px',
-                            backgroundColor: getCorVoto(votoValue),
-                            display: 'inline-block',
-                            minWidth: '60px',
-                            textAlign: 'center'
-                          }}
-                        >
-                          {votoValue}
-                        </span>
-                      </td>
-                      <td style={{ padding: '12px', color: '#666' }}>
-                        {formatarData(voto.dataVoto)}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
-
-      {/* Resumo */}
-      <div style={{ 
-        marginTop: '30px', 
-        padding: '20px', 
-        backgroundColor: '#f8f9fa', 
-        borderRadius: '8px',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-        gap: '15px'
-      }}>
-        <div>
-          <strong>Total de participantes:</strong> {resultado.totalUsuarios}
-        </div>
-        <div>
-          <strong>Votos computados:</strong> {votos.length}
-        </div>
-        <div>
-          <strong>Ausentes:</strong> {resultado.ausentes}
-        </div>
-        <div>
-          <strong>Votos válidos:</strong> {resultado.sim + resultado.nao}
         </div>
       </div>
-
-      <button 
-        onClick={carregarDados} 
-        style={{ 
-          marginTop: '20px', 
-          padding: '10px 20px', 
-          backgroundColor: '#007bff', 
-          color: 'white', 
-          border: 'none', 
-          borderRadius: '4px',
-          cursor: 'pointer',
-          fontSize: '16px'
-        }}
-      >
-        Atualizar Dados
-      </button>
     </div>
   );
 };

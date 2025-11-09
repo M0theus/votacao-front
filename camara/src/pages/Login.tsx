@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
+import './Login.css';
 
 const Login: React.FC = () => {
   const [cpf, setCpf] = useState('');
@@ -17,17 +18,10 @@ const Login: React.FC = () => {
     setError('');
     
     try {
-      console.log('Iniciando processo de login...');
       await login(cpf, senha);
-      console.log('Login concluido, redirecionando...');
-      
-      setTimeout(() => {
-        navigate('/votacao');
-      }, 100);
-      
+      navigate('/votacao');
     } catch (err: any) {
-      console.error('Erro no login:', err);
-      setError(err.message || 'CPF ou senha invalidos');
+      setError('CPF ou senha inválidos');
     } finally {
       setLoading(false);
     }
@@ -35,32 +29,51 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-container">
-      <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        {error && <div className="error">{error}</div>}
+      <div className="login-card">
+        <h2 className="login-title">Login</h2>
         
-        <input
-          type="text"
-          placeholder="CPF"
-          value={cpf}
-          onChange={(e) => setCpf(e.target.value)}
-          required
-        />
+        {error && <div className="error-message">{error}</div>}
         
-        <input
-          type="password"
-          placeholder="Senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-          required
-        />
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="CPF"
+              value={cpf}
+              onChange={(e) => setCpf(e.target.value)}
+              required
+              className="input-field"
+              disabled={loading}
+            />
+          </div>
+          
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              required
+              className="input-field"
+              disabled={loading}
+            />
+          </div>
+          
+          <button 
+            type="submit" 
+            disabled={loading}
+            className="login-button"
+          >
+            {loading ? 'Entrando...' : 'Entrar'}
+          </button>
+        </form>
         
-        <button type="submit" disabled={loading}>
-          {loading ? 'Entrando...' : 'Entrar'}
-        </button>
-        
-        <Link to="/cadastro">Nao tem conta? Cadastre-se</Link>
-      </form>
+        <div className="login-footer">
+          <Link to="/cadastro" className="login-link">
+            Não tem conta? Cadastre-se
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

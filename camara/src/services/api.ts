@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: '/api', // ← MUDEI: Agora é relativo, o proxy redireciona
 });
 
 // Interceptor para adicionar token nas requisições
