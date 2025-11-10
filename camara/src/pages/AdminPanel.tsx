@@ -88,7 +88,7 @@ const AdminPanel: React.FC = () => {
       try {
         await votacaoService.zerarVotacao();
         alert('Nova votação aberta com sucesso!');
-        window.location.reload();
+        await carregarUsuarios();
       } catch (error: any) {
         console.error('Erro ao abrir votacao:', error);
         alert('Erro ao abrir votacao: ' + (error.response?.data?.message || error.message));

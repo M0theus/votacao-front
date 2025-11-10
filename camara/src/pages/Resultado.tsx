@@ -1,25 +1,34 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { votacaoService } from '../services/votacaoService';
-import type { ResultadoVotacao, Votacao } from '../types';
+import { authService } from '../services/authService';
+import type { Usuario, Votacao, ResultadoVotacao } from '../types';
 import './Resultado.css';
 
 const Resultado: React.FC = () => {
-  const [resultado, setResultado] = useState<ResultadoVotacao | null>(null);
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [votos, setVotos] = useState<Votacao[]>([]);
+  const [resultado, setResultado] = useState<ResultadoVotacao | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   const carregarDados = async () => {
     try {
       setError('');
-      const [resultadoData, votosData] = await Promise.all([
-        votacaoService.obterResultado(),
-        votacaoService.listarVotos()
+      const [usuariosData, votosData, resultadoData] = await Promise.all([
+        authService.listarUsuarios(),
+        votacaoService.listarVotos(),
+        votacaoService.obterResultado()
       ]);
       
-      setResultado(resultadoData);
+      // Filtrar apenas usuários do tipo NORMAL
+      const usuariosNormais = (usuariosData || []).filter(
+        (usuario: Usuario) => usuario.tipo === 'NORMAL'
+      );
+      
+      setUsuarios(usuariosNormais);
       setVotos(votosData || []);
+      setResultado(resultadoData);
     } catch (err: any) {
       console.error('❌ Erro ao carregar dados:', err);
       setError('Erro ao carregar dados da votação');
@@ -37,6 +46,25 @@ const Resultado: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Função para obter o voto de cada usuário - USANDO A FORMA QUE FUNCIONA
+  const obterVotoUsuario = (usuario: Usuario) => {
+    const votoUsuario = votos.find(voto => 
+      (voto as any).usuarioId === usuario.id
+    );
+
+    if (votoUsuario) {
+      return {
+        voto: votoUsuario.voto || 'INDEFINIDO',
+        dataVoto: votoUsuario.dataVoto
+      };
+    }
+
+    return {
+      voto: 'NÃO VOTOU',
+      dataVoto: null
+    };
+  };
+
   const formatarData = (dataString: string) => {
     try {
       const data = new Date(dataString);
@@ -51,6 +79,7 @@ const Resultado: React.FC = () => {
       case 'SIM': return '#27ae60';
       case 'NAO': return '#e74c3c';
       case 'AUSENTE': return '#3498db';
+      case 'NÃO VOTOU': return '#95a5a6';
       default: return '#95a5a6';
     }
   };
@@ -71,25 +100,17 @@ const Resultado: React.FC = () => {
     );
   }
 
-  if (!resultado) {
-    return (
-      <div className="resultado-container">
-        <div className="no-data">Nenhum resultado disponível</div>
-      </div>
-    );
-  }
-
   return (
     <div className="resultado-container">
       <div className="resultado-content">
         <div className="main-layout">
-          {/* Tabela de Votos */}
+          {/* Tabela de Usuários com Votos */}
           <div className="tabela-section">
             <div className="card">
               <div className="table-container">
-                {votos.length === 0 ? (
+                {usuarios.length === 0 ? (
                   <div className="sem-votos">
-                    Nenhum voto registrado ainda.
+                    Nenhum usuário cadastrado.
                   </div>
                 ) : (
                   <table className="tabela-votos">
@@ -102,31 +123,32 @@ const Resultado: React.FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {votos.map((voto: any) => {
-                        const nome = voto.usuarioNome || 'Usuário não encontrado';
-                        const partido = voto.usuarioPartido || voto.partido || 'N/A';
-                        const votoValue = voto.voto || 'INDEFINIDO';
+                      {usuarios.map((usuario) => {
+                        const votoInfo = obterVotoUsuario(usuario);
                         
                         return (
-                          <tr key={voto.id}>
-                            <td className="usuario-nome">{nome}</td>
-                            <td className="usuario-partido">{partido}</td>
+                          <tr key={usuario.id}>
+                            <td className="usuario-nome">{usuario.nome}</td>
+                            <td className="usuario-partido">{usuario.partido}</td>
                             <td>
                               <span 
                                 className="badge-voto"
-                                style={{ backgroundColor: getCorVoto(votoValue) }}
+                                style={{ backgroundColor: getCorVoto(votoInfo.voto) }}
                               >
-                                {votoValue}
+                                {votoInfo.voto}
                               </span>
                             </td>
                             <td className="data-voto">
-                              {formatarData(voto.dataVoto)}
+                              {votoInfo.dataVoto 
+                                ? formatarData(votoInfo.dataVoto)
+                                : '-'
+                              }
                             </td>
                           </tr>
                         );
                       })}
                       {/* Linhas vazias para completar 14 */}
-                      {Array.from({ length: Math.max(0, 14 - votos.length) }).map((_, index) => (
+                      {Array.from({ length: Math.max(0, 14 - usuarios.length) }).map((_, index) => (
                         <tr key={`empty-${index}`} className="linha-vazia">
                           <td>&nbsp;</td>
                           <td>&nbsp;</td>
@@ -148,28 +170,28 @@ const Resultado: React.FC = () => {
                 <div className="resumo-item sim">
                   <div className="resumo-content">
                     <div className="resumo-label">SIM</div>
-                    <div className="resumo-valor">{resultado.sim}</div>
+                    <div className="resumo-valor">{resultado?.sim || 0}</div>
                   </div>
                 </div>
                 
                 <div className="resumo-item nao">
                   <div className="resumo-content">
                     <div className="resumo-label">NÃO</div>
-                    <div className="resumo-valor">{resultado.nao}</div>
+                    <div className="resumo-valor">{resultado?.nao || 0}</div>
                   </div>
                 </div>
 
                 <div className="resumo-item ausente">
                   <div className="resumo-content">
                     <div className="resumo-label">AUSENTES</div>
-                    <div className="resumo-valor">{resultado.ausentes}</div>
+                    <div className="resumo-valor">{resultado?.ausentes || 0}</div>
                   </div>
                 </div>
 
                 <div className="resumo-item total">
                   <div className="resumo-content">
                     <div className="resumo-label">TOTAL</div>
-                    <div className="resumo-valor">{resultado.totalUsuarios}</div>
+                    <div className="resumo-valor">{resultado?.totalUsuarios || usuarios.length}</div>
                   </div>
                 </div>
               </div>
