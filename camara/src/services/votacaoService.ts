@@ -41,10 +41,29 @@ export const votacaoService = {
   },
 
   async finalizarVotacao(): Promise<void> {
-    await api.post('/votacao/finalizar');
+    const userData = localStorage.getItem('usuario');
+  
+    if (!userData) {
+      throw new Error('Usuário não autenticado');
+    }
+    
+    const usuario = JSON.parse(userData);
+    const usuarioId = usuario.id;
+    
+    // Enviar o usuarioId no corpo da requisição
+    await api.post('/votacoes/encerrar', { usuarioId });
   },
 
   async zerarVotacao(): Promise<void> {
-    await api.post('/votacao/zerar');
+    const userData = localStorage.getItem('usuario');
+  
+  if (!userData) {
+    throw new Error('Usuário não autenticado');
+  }
+  
+  const usuario = JSON.parse(userData);
+  const usuarioId = usuario.id;
+  
+  await api.post('/votacoes/criar', { usuarioId });
   },
 };

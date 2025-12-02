@@ -75,7 +75,6 @@ const AdminPanel: React.FC = () => {
       try {
         await votacaoService.finalizarVotacao();
         alert('Votação encerrada com sucesso!');
-        navigate('/resultado');
       } catch (error: any) {
         console.error('Erro ao encerrar votacao:', error);
         alert('Erro ao encerrar votacao: ' + (error.response?.data?.message || error.message));
