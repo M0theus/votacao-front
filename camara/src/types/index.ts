@@ -5,7 +5,7 @@ export interface Usuario {
   cpf: string;
   partido: string;
   senha: string;
-  tipo: 'ADMINISTRADOR' | 'NORMAL';
+  tipo: 'ADMINISTRADOR' | 'NORMAL' | 'PRESIDENTE';
 }
 
 export interface AuthResponse {
@@ -22,15 +22,18 @@ export interface AuthResponse {
 export interface Votacao {
   id: number;
   usuario: Usuario;
-  voto: 'SIM' | 'NAO';
+  voto: 'SIM' | 'NAO' | 'ABSTENCAO';
   dataVoto: string;
   votacaoAtiva: boolean;
+  usuarioId?: number;
+  usuarioNome?: string;
 }
 
 export interface ResultadoVotacao {
   sim: number;
   nao: number;
   ausentes: number;
+  abstencao: number;
   totalUsuarios: number;
 }
 

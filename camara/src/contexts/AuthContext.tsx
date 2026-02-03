@@ -5,7 +5,7 @@ import { authService } from '../services/authService';
 
 interface AuthContextData {
   usuario: Usuario | null;
-  login: (cpf: string, senha: string) => Promise<void>;
+  login: (cpf: string, senha: string) => Promise<AuthResponse>; // Mude para retornar AuthResponse
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -15,7 +15,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = React.memo(({ children }) => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
 
-  const login = async (cpf: string, senha: string) => {
+  const login = async (cpf: string, senha: string): Promise<AuthResponse> => {
     try {
       console.log('=== INICIANDO LOGIN ===');
       
@@ -38,7 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = React.memo(
         cpf: response.cpf,
         partido: response.partido,
         senha: '', // A senha não vem na resposta por segurança
-        tipo: response.tipo as 'ADMINISTRADOR' | 'NORMAL'
+        tipo: response.tipo as 'ADMINISTRADOR' | 'NORMAL' | 'PRESIDENTE' // Adicione PRESIDENTE aqui
       };
       
       console.log('Usuario convertido:', user);
@@ -52,6 +52,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = React.memo(
       console.log('Verificando salvamento:');
       console.log('Token salvo:', localStorage.getItem('token'));
       console.log('Usuario salvo:', localStorage.getItem('usuario'));
+      
+      // RETORNA A RESPOSTA COMPLETA!
+      return response;
       
     } catch (error: any) {
       console.error('ERRO NO LOGIN:', error);

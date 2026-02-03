@@ -6,7 +6,7 @@
 
 .resultado-container {
   min-height: 100vh;
-  background: #f8f9fa;
+  background: #f5f5f5;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -15,7 +15,6 @@
 .resultado-content {
   display: flex;
   flex-direction: column;
-  gap: 15px;
   padding: 15px;
   width: 100%;
   height: 100vh;
@@ -24,7 +23,7 @@
 
 .main-layout {
   display: grid;
-  grid-template-columns: 1fr 160px; /* Largura reduzida para o resumo */
+  grid-template-columns: 1fr 160px;
   gap: 15px;
   height: 100%;
   align-items: start;
@@ -32,18 +31,18 @@
 
 .card {
   background: white;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border: 1px solid #e9ecef;
   width: 100%;
+  height: 100%;
 }
 
-/* Tabela - Ocupa a maior parte do espaço */
+/* Tabela - SEM SCROLL */
 .tabela-section {
   width: 100%;
   height: 100%;
-  min-height: 0;
 }
 
 .table-container {
@@ -58,10 +57,10 @@
 .tabela-votos {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: 11px;
   background: white;
   table-layout: fixed;
-  height: 100%;
+  height: auto;
 }
 
 /* Definição das colunas com tamanhos proporcionais */
@@ -73,10 +72,10 @@
 .tabela-votos th {
   background: #2c3e50;
   color: white;
-  padding: 12px 8px;
+  padding: 10px 8px;
   text-align: left;
   font-weight: 600;
-  font-size: 11px;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.3px;
   border: none;
@@ -85,7 +84,7 @@
 }
 
 .tabela-votos td {
-  padding: 10px 8px;
+  padding: 8px 8px;
   border-bottom: 1px solid #f1f3f4;
   color: #333;
   background: white;
@@ -99,12 +98,6 @@
 
 .tabela-votos tr:hover td {
   background: #f8f9fa;
-}
-
-/* Linhas vazias */
-.linha-vazia td {
-  background: #fafafa;
-  color: transparent;
 }
 
 .usuario-nome {
@@ -142,7 +135,7 @@
   border-radius: 12px;
   font-size: 10px;
   display: inline-block;
-  min-width: 50px;
+  min-width: 60px;
   text-align: center;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   text-transform: uppercase;
@@ -159,7 +152,7 @@
 .resumo-vertical {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Espaçamento reduzido entre os itens */
+  gap: 8px;
   width: 100%;
 }
 
@@ -167,13 +160,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 8px;
+  padding: 12px 8px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   border: 1px solid rgba(0, 0, 0, 0.05);
   text-align: center;
-  min-height: 55px; /* Altura reduzida */
+  min-height: 60px;
   width: 100%;
 }
 
@@ -189,6 +182,11 @@
 
 .resumo-item.nao {
   background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+}
+
+.resumo-item.abstencao {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
   color: white;
 }
 
@@ -216,7 +214,7 @@
 }
 
 .resumo-valor {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
 }
 
@@ -267,15 +265,14 @@
   }
   
   .resumo-item {
-    min-height: 50px;
-    padding: 8px 6px;
+    min-height: 55px;
+    padding: 10px 6px;
   }
 }
 
 @media (max-width: 768px) {
   .resultado-content {
     padding: 12px;
-    gap: 12px;
   }
   
   .main-layout {
@@ -296,7 +293,7 @@
   .resumo-item {
     flex: 1;
     min-width: calc(50% - 4px);
-    min-height: 60px;
+    min-height: 65px;
   }
   
   .resumo-valor {
@@ -320,7 +317,6 @@
 @media (max-width: 480px) {
   .resultado-content {
     padding: 10px;
-    gap: 10px;
   }
   
   .card {
@@ -333,8 +329,8 @@
   }
   
   .resumo-item {
-    min-height: 50px;
-    padding: 6px 4px;
+    min-height: 55px;
+    padding: 8px 4px;
   }
   
   .resumo-valor {

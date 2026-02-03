@@ -2,7 +2,7 @@ import api from './api';
 import type { Votacao, ResultadoVotacao } from '../types';
 
 export const votacaoService = {
-  async votar(voto: 'SIM' | 'NAO'): Promise<Votacao> {
+  async votar(voto: 'SIM' | 'NAO' | 'ABSTENCAO'): Promise<Votacao> {
     const userData = localStorage.getItem('usuario');
     
     if (!userData) {

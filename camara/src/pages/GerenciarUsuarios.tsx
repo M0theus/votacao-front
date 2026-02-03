@@ -25,7 +25,7 @@ const GerenciarUsuarios: React.FC = () => {
         const usuario = JSON.parse(userData);
         setUsuarioLogado(usuario);
         
-        if (usuario.tipo !== 'ADMINISTRADOR') {
+        if (usuario.tipo !== 'ADMINISTRADOR' && usuario.tipo !== 'PRESIDENTE') {
           alert('Acesso restrito a administradores');
           navigate('/votacao');
           return false;

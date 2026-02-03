@@ -10,13 +10,13 @@ const Votacao: React.FC = () => {
   const { usuario, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  const handleVoto = async (voto: 'SIM' | 'NAO') => {
+  const handleVoto = async (voto: 'SIM' | 'NAO' | 'ABSTENCAO') => {
     try {
       setVotando(true);
       await votacaoService.votar(voto);
       alert('Voto registrado com sucesso!');
     } catch (error) {
-      alert('Erro ao registrar voto');
+      alert('Erro ao registrar voto: ' + (error as Error).message);
     } finally {
       setVotando(false);
     }
@@ -65,6 +65,14 @@ const Votacao: React.FC = () => {
             className={`btn-voto btn-nao ${votando ? 'btn-disabled' : ''}`}
           >
             <span className="btn-text">NÃO</span>
+          </button>
+          
+          <button 
+            onClick={() => handleVoto('ABSTENCAO')} 
+            disabled={votando}
+            className={`btn-voto btn-abstencao ${votando ? 'btn-disabled' : ''}`}
+          >
+            <span className="btn-text">ABSTER</span>
           </button>
         </div>
         

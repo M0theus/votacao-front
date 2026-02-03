@@ -1,251 +1,412 @@
 .votacao-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    width: 100%;
-    background-color: #f5f5f5;
-    padding: 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f5f5f5;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.votacao-card {
+  background-color: white;
+  padding: 50px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px; /* Aumentei para acomodar 3 botões */
+  border: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.votacao-title {
+  text-align: center;
+  margin-bottom: 16px;
+  color: #2c3e50;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.votacao-subtitle {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #666;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.botoes-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.btn-voto {
+  padding: 30px 15px;
+  border: none;
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn-voto:hover:not(.btn-disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.btn-voto:active:not(.btn-disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-sim {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: white;
+}
+
+.btn-sim:hover:not(.btn-disabled) {
+  background: linear-gradient(135deg, #229954, #27ae60);
+  box-shadow: 0 6px 18px rgba(39, 174, 96, 0.3);
+}
+
+.btn-nao {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+}
+
+.btn-nao:hover:not(.btn-disabled) {
+  background: linear-gradient(135deg, #c0392b, #a93226);
+  box-shadow: 0 6px 18px rgba(231, 76, 60, 0.3);
+}
+
+.btn-abstencao {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  color: white;
+}
+
+.btn-abstencao:hover:not(.btn-disabled) {
+  background: linear-gradient(135deg, #d68910, #ca6f1e);
+  box-shadow: 0 6px 18px rgba(243, 156, 18, 0.3);
+}
+
+.btn-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn-text {
+  display: block;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.acoes-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn-resultados {
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+  min-width: 200px;
+}
+
+.btn-resultados:hover {
+  background: linear-gradient(135deg, #2980b9, #2471a3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(52, 152, 219, 0.3);
+}
+
+.btn-resultados:active {
+  transform: translateY(0);
+}
+
+.admin-button {
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.admin-button:hover {
+  background: linear-gradient(135deg, #34495e, #2c3e50);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos específicos para o painel administrativo dentro do card */
+.votacao-card h2:not(.votacao-title) {
+  color: #2c3e50;
+  margin-bottom: 16px;
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.votacao-card p:not(.votacao-subtitle) {
+  color: #666;
+  margin-bottom: 40px;
+  font-size: 18px;
+  font-weight: 400;
+  text-align: center;
+}
+
+/* Efeitos de loading */
+.btn-voto:disabled::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* RESPONSIVIDADE - TELAS MÉDIAS */
+@media (max-width: 992px) {
   .votacao-card {
-    background-color: white;
-    padding: 50px 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
-    border: 1px solid #e0e0e0;
-    text-align: center;
-  }
-  
-  .votacao-title {
-    text-align: center;
-    margin-bottom: 16px;
-    color: #2c3e50;
-    font-size: 32px;
-    font-weight: 700;
-  }
-  
-  .votacao-subtitle {
-    text-align: center;
-    margin-bottom: 40px;
-    color: #666;
-    font-size: 18px;
-    font-weight: 400;
-  }
-  
-  .botoes-container {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    margin-bottom: 40px;
-    flex-wrap: wrap;
+    max-width: 600px;
+    padding: 40px 30px;
   }
   
   .btn-voto {
-    flex: 1;
-    min-width: 150px;
-    max-width: 200px;
-    padding: 30px 20px;
-    border: none;
-    border-radius: 12px;
-    font-size: 24px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .btn-voto:hover:not(.btn-disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-  }
-  
-  .btn-voto:active:not(.btn-disabled) {
-    transform: translateY(-1px);
-  }
-  
-  .btn-sim {
-    background: linear-gradient(135deg, #27ae60, #2ecc71);
-    color: white;
-  }
-  
-  .btn-sim:hover:not(.btn-disabled) {
-    background: linear-gradient(135deg, #229954, #27ae60);
-    box-shadow: 0 6px 18px rgba(39, 174, 96, 0.3);
-  }
-  
-  .btn-nao {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-  }
-  
-  .btn-nao:hover:not(.btn-disabled) {
-    background: linear-gradient(135deg, #c0392b, #a93226);
-    box-shadow: 0 6px 18px rgba(231, 76, 60, 0.3);
-  }
-  
-  .btn-disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
+    padding: 25px 10px;
+    min-height: 110px;
   }
   
   .btn-text {
-    display: block;
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 22px;
+  }
+}
+
+/* RESPONSIVIDADE - TABLETS */
+@media (max-width: 768px) {
+  .votacao-card {
+    max-width: 550px;
+    padding: 40px 25px;
+    margin: 20px;
   }
   
-  .acoes-container {
-    display: flex;
-    justify-content: center;
+  .votacao-title {
+    font-size: 28px;
+  }
+  
+  .votacao-subtitle {
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+  
+  .botoes-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+  
+  .btn-voto {
+    padding: 20px 8px;
+    min-height: 100px;
+  }
+  
+  .btn-text {
+    font-size: 20px;
+    letter-spacing: 0.3px;
   }
   
   .btn-resultados {
-    padding: 16px 32px;
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
-    min-width: 200px;
+    min-width: 180px;
+    padding: 14px 28px;
   }
-  
-  .btn-resultados:hover {
-    background: linear-gradient(135deg, #2980b9, #2471a3);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.3);
-  }
-  
-  .btn-resultados:active {
-    transform: translateY(0);
-  }
-  
-  /* REMOVA ou COMENTE estas regras antigas do admin-panel
-  .admin-panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f5f5f5;
-    padding: 40px;
-    text-align: center;
-  }
-  
-  .admin-panel h2 {
-    color: #2c3e50;
-    margin-bottom: 20px;
-    font-size: 32px;
-  }
-  
-  .admin-panel p {
-    color: #666;
-    margin-bottom: 30px;
-    font-size: 18px;
-    max-width: 400px;
-  }
-  */
-  
-  .admin-button {
-    padding: 16px 32px;
-    background: linear-gradient(135deg, #2c3e50, #34495e);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .admin-button:hover {
-    background: linear-gradient(135deg, #34495e, #2c3e50);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  }
+}
 
-  /* Estilos específicos para o painel administrativo dentro do card */
-.votacao-card h2:not(.votacao-title) {
-    color: #2c3e50;
-    margin-bottom: 16px;
-    font-size: 32px;
-    font-weight: 700;
-    text-align: center;
+/* RESPONSIVIDADE - CELULARES GRANDES */
+@media (max-width: 640px) {
+  .votacao-card {
+    max-width: 500px;
+    padding: 35px 20px;
   }
   
-  .votacao-card p:not(.votacao-subtitle) {
-    color: #666;
-    margin-bottom: 40px;
+  .botoes-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  
+  .btn-voto {
+    padding: 18px 6px;
+    min-height: 90px;
+  }
+  
+  .btn-text {
     font-size: 18px;
-    font-weight: 400;
-    text-align: center;
+  }
+}
+
+/* RESPONSIVIDADE - CELULARES MÉDIOS */
+@media (max-width: 576px) {
+  .votacao-container {
+    padding: 15px;
   }
   
-  /* Efeitos de loading */
-  .btn-voto:disabled::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    margin: -10px 0 0 -10px;
-    border: 2px solid transparent;
-    border-top: 2px solid white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+  .votacao-card {
+    padding: 30px 20px;
+    max-width: 100%;
+    margin: 10px;
   }
   
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  .votacao-title {
+    font-size: 24px;
   }
   
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .votacao-card {
-      padding: 40px 20px;
-      margin: 20px;
-    }
-    
-    .botoes-container {
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-    
-    .btn-voto {
-      min-width: 200px;
-      max-width: 250px;
-      padding: 25px 20px;
-    }
-    
-    .btn-text {
-      font-size: 24px;
-    }
-    
-    .votacao-title {
-      font-size: 28px;
-    }
-    
-    .votacao-subtitle {
-      font-size: 16px;
-    }
+  .votacao-subtitle {
+    font-size: 14px;
+    margin-bottom: 25px;
   }
+  
+  .botoes-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  
+  .btn-voto {
+    padding: 16px 4px;
+    min-height: 85px;
+    border-radius: 10px;
+  }
+  
+  .btn-text {
+    font-size: 16px;
+    letter-spacing: 0.2px;
+  }
+  
+  .btn-resultados {
+    min-width: 160px;
+    padding: 12px 24px;
+    font-size: 15px;
+  }
+}
+
+/* RESPONSIVIDADE - CELULARES PEQUENOS */
+@media (max-width: 480px) {
+  .votacao-container {
+    padding: 10px;
+  }
+  
+  .votacao-card {
+    padding: 25px 15px;
+  }
+  
+  .botoes-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  .btn-voto {
+    padding: 14px 2px;
+    min-height: 80px;
+  }
+  
+  .btn-text {
+    font-size: 14px;
+  }
+}
+
+/* RESPONSIVIDADE - CELULARES MUITO PEQUENOS */
+@media (max-width: 375px) {
+  .votacao-card {
+    padding: 20px 12px;
+  }
+  
+  .votacao-title {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+  
+  .votacao-subtitle {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  
+  .botoes-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  
+  .btn-voto {
+    padding: 12px 1px;
+    min-height: 75px;
+    border-radius: 8px;
+  }
+  
+  .btn-text {
+    font-size: 13px;
+  }
+  
+  .btn-resultados {
+    min-width: 140px;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+/* RESPONSIVIDADE - EM MODO PORTRAIT (vertical) - Uma coluna */
+@media (max-width: 360px) and (orientation: portrait) {
+  .botoes-container {
+    grid-template-columns: 1fr;
+    max-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 12px;
+  }
+  
+  .btn-voto {
+    padding: 20px 15px;
+    min-height: 70px;
+  }
+  
+  .btn-text {
+    font-size: 18px;
+  }
+}

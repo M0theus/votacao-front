@@ -14,7 +14,7 @@ const EditarUsuario: React.FC = () => {
     cpf: '',
     partido: '',
     senha: '',
-    tipo: 'NORMAL' as 'NORMAL' | 'ADMINISTRADOR'
+    tipo: 'NORMAL' as 'NORMAL' | 'ADMINISTRADOR' | 'PRESIDENTE'
   });
   const [loading, setLoading] = useState(true);
   const [salvando, setSalvando] = useState(false);
@@ -33,7 +33,7 @@ const EditarUsuario: React.FC = () => {
 
       try {
         const usuario = JSON.parse(userData);
-        if (usuario.tipo !== 'ADMINISTRADOR') {
+        if (usuario.tipo !== 'ADMINISTRADOR' && usuario.tipo !== 'PRESIDENTE') {
           alert('Acesso restrito a administradores');
           navigate('/votacao');
           return false;
@@ -240,6 +240,7 @@ const EditarUsuario: React.FC = () => {
             >
               <option value="NORMAL">Normal</option>
               <option value="ADMINISTRADOR">Administrador</option>
+              <option value="PRESIDENTE">Presidente</option>
             </select>
           </div>
 

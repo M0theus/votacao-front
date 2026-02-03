@@ -9,7 +9,7 @@ const Login: React.FC = () => {
   const [senha, setSenha] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login } = useAuth(); // Remove 'user' daqui se não estiver usando
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -18,8 +18,17 @@ const Login: React.FC = () => {
     setError('');
     
     try {
-      await login(cpf, senha);
-      navigate('/votacao');
+      // A função login deve retornar os dados do usuário
+      const userData = await login(cpf, senha);
+      
+      // Verifica o tipo de usuário e redireciona conforme necessário
+      if (userData.tipo === 'ADMINISTRADOR' || userData.tipo === 'PRESIDENTE') {
+        navigate('/admin');
+      } else {
+        // Para usuários NORMAL ou qualquer outro tipo
+        navigate('/votacao');
+      }
+      
     } catch (err: any) {
       setError('CPF ou senha inválidos');
     } finally {
@@ -27,6 +36,7 @@ const Login: React.FC = () => {
     }
   };
 
+  // ... restante do código permanece igual
   return (
     <div className="login-container">
       <div className="login-card">

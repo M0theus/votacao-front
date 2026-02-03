@@ -21,12 +21,12 @@ const Resultado: React.FC = () => {
         votacaoService.obterResultado()
       ]);
       
-      // Filtrar apenas usuários do tipo NORMAL
-      const usuariosNormais = (usuariosData || []).filter(
-        (usuario: Usuario) => usuario.tipo === 'NORMAL'
+      // Filtrar apenas usuários do tipo NORMAL e PRESIDENTE (que podem votar)
+      const usuariosVotantes = (usuariosData || []).filter(
+        (usuario: Usuario) => usuario.tipo === 'NORMAL' || usuario.tipo === 'PRESIDENTE'
       );
       
-      setUsuarios(usuariosNormais);
+      setUsuarios(usuariosVotantes);
       setVotos(votosData || []);
       setResultado(resultadoData);
     } catch (err: any) {
@@ -46,7 +46,7 @@ const Resultado: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Função para obter o voto de cada usuário - USANDO A FORMA QUE FUNCIONA
+  // Função para obter o voto de cada usuário
   const obterVotoUsuario = (usuario: Usuario) => {
     const votoUsuario = votos.find(voto => 
       (voto as any).usuarioId === usuario.id
@@ -78,6 +78,8 @@ const Resultado: React.FC = () => {
     switch (voto) {
       case 'SIM': return '#27ae60';
       case 'NAO': return '#e74c3c';
+      case 'ABSTENÇÃO': return '#f39c12'; // LARANJA PARA ABSTENÇÃO
+      case 'ABSTENCAO': return '#f39c12'; // LARANJA PARA ABSTENÇÃO (alternativo)
       case 'AUSENTE': return '#3498db';
       case 'NÃO VOTOU': return '#95a5a6';
       default: return '#95a5a6';
@@ -104,7 +106,7 @@ const Resultado: React.FC = () => {
     <div className="resultado-container">
       <div className="resultado-content">
         <div className="main-layout">
-          {/* Tabela de Usuários com Votos */}
+          {/* Tabela de Usuários com Votos - SEM SCROLL */}
           <div className="tabela-section">
             <div className="card">
               <div className="table-container">
@@ -123,13 +125,13 @@ const Resultado: React.FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {usuarios.map((usuario) => {
+                      {usuarios.slice(0, 14).map((usuario) => { // Mostra até 14 usuários
                         const votoInfo = obterVotoUsuario(usuario);
                         
                         return (
                           <tr key={usuario.id}>
                             <td className="usuario-nome">{usuario.nome}</td>
-                            <td className="usuario-partido">{usuario.partido}</td>
+                            <td className="usuario-partido">{usuario.partido || '-'}</td>
                             <td>
                               <span 
                                 className="badge-voto"
@@ -147,15 +149,6 @@ const Resultado: React.FC = () => {
                           </tr>
                         );
                       })}
-                      {/* Linhas vazias para completar 14 */}
-                      {Array.from({ length: Math.max(0, 14 - usuarios.length) }).map((_, index) => (
-                        <tr key={`empty-${index}`} className="linha-vazia">
-                          <td>&nbsp;</td>
-                          <td>&nbsp;</td>
-                          <td>&nbsp;</td>
-                          <td>&nbsp;</td>
-                        </tr>
-                      ))}
                     </tbody>
                   </table>
                 )}
@@ -178,6 +171,13 @@ const Resultado: React.FC = () => {
                   <div className="resumo-content">
                     <div className="resumo-label">NÃO</div>
                     <div className="resumo-valor">{resultado?.nao || 0}</div>
+                  </div>
+                </div>
+
+                <div className="resumo-item abstencao">
+                  <div className="resumo-content">
+                    <div className="resumo-label">ABSTENÇÃO</div>
+                    <div className="resumo-valor">{resultado?.abstencao || 0}</div>
                   </div>
                 </div>
 

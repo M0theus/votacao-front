@@ -26,7 +26,7 @@ const AdminPanel: React.FC = () => {
         const usuario = JSON.parse(userData);
         setUsuarioLogado(usuario);
         
-        if (usuario.tipo !== 'ADMINISTRADOR') {
+        if (usuario.tipo !== 'ADMINISTRADOR' && usuario.tipo !== "PRESIDENTE") {
           alert('Acesso restrito a administradores');
           navigate('/votacao');
           return false;
@@ -83,7 +83,7 @@ const AdminPanel: React.FC = () => {
   };
 
   const handleAbrirVotacao = async () => {
-    if (window.confirm('Deseja ABRIR uma nova votação?\n\nIsso irá:\n• Limpar TODOS os votos anteriores\n• Iniciar uma nova votação\n• Manter os usuários cadastrados')) {
+    if (window.confirm('Deseja ABRIR uma nova votação?\n\nIsso irá:\n• Limpar TODOS os votos anteriores\n• Iniciar uma nova votação\n•')) {
       try {
         await votacaoService.zerarVotacao();
         alert('Nova votação aberta com sucesso!');
