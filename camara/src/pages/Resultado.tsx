@@ -41,7 +41,7 @@ const Resultado: React.FC = () => {
     carregarDados();
     
     // Auto-atualiza a cada 5 segundos
-    const interval = setInterval(carregarDados, 5000);
+    const interval = setInterval(carregarDados, 2500);
     
     return () => clearInterval(interval);
   }, []);

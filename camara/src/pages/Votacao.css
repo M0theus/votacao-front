@@ -19,7 +19,7 @@
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 700px; /* Aumentei para acomodar 3 botões */
+  max-width: 700px;
   border: 1px solid #e0e0e0;
   text-align: center;
 }
@@ -207,6 +207,253 @@
   100% { transform: rotate(360deg); }
 }
 
+/* Modal de Confirmação Simplificado - sem nome do usuário */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 400px;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 16px 20px;
+  background-color: #2c3e50;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.modal-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.modal-body {
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.modal-mensagem {
+  font-size: 18px;
+  color: #2c3e50;
+  margin: 0;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.voto-destaque {
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-left: 4px;
+}
+
+.voto-sim {
+  background-color: #27ae60;
+  color: white;
+}
+
+.voto-nao {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.voto-abstencao {
+  background-color: #f39c12;
+  color: white;
+}
+
+.modal-footer {
+  padding: 16px 20px 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 1px solid #f0f0f0;
+}
+
+.modal-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  flex: 1;
+}
+
+.modal-btn-cancelar {
+  background-color: #e0e0e0;
+  color: #666;
+}
+
+.modal-btn-cancelar:hover {
+  background-color: #d0d0d0;
+}
+
+.modal-btn-confirmar {
+  color: white;
+}
+
+.modal-btn-confirmar.modal-btn-sim {
+  background-color: #27ae60;
+}
+
+.modal-btn-confirmar.modal-btn-sim:hover {
+  background-color: #229954;
+}
+
+.modal-btn-confirmar.modal-btn-nao {
+  background-color: #e74c3c;
+}
+
+.modal-btn-confirmar.modal-btn-nao:hover {
+  background-color: #c0392b;
+}
+
+.modal-btn-confirmar.modal-btn-abstencao {
+  background-color: #f39c12;
+}
+
+.modal-btn-confirmar.modal-btn-abstencao:hover {
+  background-color: #e67e22;
+}
+
+/* Toast de Sucesso */
+.toast-sucesso {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #27ae60;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 2000;
+  transform: translateX(120%);
+  transition: transform 0.3s ease-out;
+  border-left: 4px solid #fff;
+}
+
+.toast-sucesso.show {
+  transform: translateX(0);
+}
+
+/* Erro simplificado - sem animações, sem emojis */
+.erro-simples-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1500;
+}
+
+.erro-simples-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 380px;
+  overflow: hidden;
+  border-left: 4px solid #e74c3c;
+}
+
+.erro-simples-header {
+  padding: 15px 20px;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.erro-simples-titulo {
+  font-size: 16px;
+  font-weight: 600;
+  color: #e74c3c;
+}
+
+.erro-simples-corpo {
+  padding: 25px 20px;
+  background-color: white;
+  text-align: center;
+}
+
+.erro-simples-mensagem {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.erro-simples-footer {
+  padding: 15px 20px 20px;
+  background-color: white;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: center;
+}
+
+.erro-simples-btn {
+  padding: 10px 30px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  min-width: 100px;
+}
+
+.erro-simples-btn:hover {
+  background-color: #c0392b;
+}
+
+.erro-simples-btn:active {
+  background-color: #a93226;
+}
+
 /* RESPONSIVIDADE - TELAS MÉDIAS */
 @media (max-width: 992px) {
   .votacao-card {
@@ -326,6 +573,56 @@
     padding: 12px 24px;
     font-size: 15px;
   }
+
+  /* Responsividade do Modal */
+  .modal-container {
+    max-width: 350px;
+  }
+  
+  .modal-header {
+    padding: 14px 18px;
+  }
+  
+  .modal-title {
+    font-size: 17px;
+  }
+  
+  .modal-body {
+    padding: 25px 18px;
+  }
+  
+  .modal-mensagem {
+    font-size: 16px;
+  }
+  
+  .modal-footer {
+    padding: 14px 18px 18px;
+    flex-direction: column;
+  }
+  
+  .modal-btn {
+    width: 100%;
+    padding: 12px 18px;
+  }
+
+  /* Responsividade do erro simplificado */
+  .erro-simples-card {
+    max-width: 320px;
+  }
+  
+  .erro-simples-titulo {
+    font-size: 15px;
+  }
+  
+  .erro-simples-mensagem {
+    font-size: 15px;
+  }
+  
+  .erro-simples-btn {
+    padding: 8px 25px;
+    font-size: 14px;
+    min-width: 90px;
+  }
 }
 
 /* RESPONSIVIDADE - CELULARES PEQUENOS */
@@ -350,6 +647,37 @@
   
   .btn-text {
     font-size: 14px;
+  }
+  
+  .modal-container {
+    max-width: 300px;
+  }
+  
+  .modal-mensagem {
+    font-size: 15px;
+  }
+  
+  .voto-destaque {
+    font-size: 15px;
+    padding: 3px 6px;
+  }
+  
+  .erro-simples-card {
+    max-width: 300px;
+  }
+  
+  .erro-simples-titulo {
+    font-size: 14px;
+  }
+  
+  .erro-simples-mensagem {
+    font-size: 14px;
+  }
+  
+  .erro-simples-btn {
+    padding: 8px 22px;
+    font-size: 14px;
+    min-width: 80px;
   }
 }
 
@@ -388,6 +716,56 @@
     min-width: 140px;
     padding: 10px 20px;
     font-size: 14px;
+  }
+  
+  .modal-container {
+    max-width: 280px;
+  }
+  
+  .modal-header {
+    padding: 12px 15px;
+  }
+  
+  .modal-title {
+    font-size: 16px;
+  }
+  
+  .modal-body {
+    padding: 20px 15px;
+  }
+  
+  .modal-mensagem {
+    font-size: 14px;
+  }
+  
+  .voto-destaque {
+    font-size: 14px;
+    padding: 2px 5px;
+  }
+  
+  .erro-simples-card {
+    max-width: 280px;
+  }
+  
+  .erro-simples-header {
+    padding: 12px 15px;
+  }
+  
+  .erro-simples-titulo {
+    font-size: 14px;
+  }
+  
+  .erro-simples-corpo {
+    padding: 20px 15px;
+  }
+  
+  .erro-simples-mensagem {
+    font-size: 14px;
+  }
+  
+  .erro-simples-btn {
+    padding: 8px 20px;
+    font-size: 13px;
   }
 }
 
