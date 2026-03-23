@@ -83,15 +83,13 @@ const AdminPanel: React.FC = () => {
   };
 
   const handleAbrirVotacao = async () => {
-    if (window.confirm('Deseja ABRIR uma nova votação?\n\nIsso irá:\n• Limpar TODOS os votos anteriores\n• Iniciar uma nova votação\n•')) {
-      try {
-        await votacaoService.zerarVotacao();
-        alert('Nova votação aberta com sucesso!');
-        await carregarUsuarios();
-      } catch (error: any) {
-        console.error('Erro ao abrir votacao:', error);
-        alert('Erro ao abrir votacao: ' + (error.response?.data?.message || error.message));
-      }
+    try {
+      await votacaoService.zerarVotacao();
+      alert('Nova votação aberta com sucesso!');
+      await carregarUsuarios();
+    } catch (error: any) {
+      console.error('Erro ao abrir votacao:', error);
+      alert('Erro ao abrir votacao: ' + (error.response?.data?.message || error.message));
     }
   };
 
