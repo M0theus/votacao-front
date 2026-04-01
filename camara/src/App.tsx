@@ -8,6 +8,7 @@ import AdminPanel from './pages/AdminPanel';
 import Resultado from './pages/Resultado';
 import EditarUsuario from './pages/EditarUsuario';
 import GerenciarUsuarios from './pages/GerenciarUsuarios';
+import Relatorios from './pages/Relatorios'; // ADICIONE ESTA LINHA
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -38,6 +39,11 @@ const App: React.FC = () => {
           } />
           <Route path="/admin/usuarios" element={<GerenciarUsuarios />} />
           <Route path="/admin/editar-usuario/:id" element={<EditarUsuario />} />
+          <Route path="/admin/relatorios" element={  // ADICIONE ESTA ROTA
+            <ProtectedRoute>
+              <Relatorios />
+            </ProtectedRoute>
+          } />
           {/* RESULTADO É PÚBLICO - SEM PROTECTED ROUTE */}
           <Route path="/resultado" element={<Resultado />} />
           <Route path="/editar-usuario" element={

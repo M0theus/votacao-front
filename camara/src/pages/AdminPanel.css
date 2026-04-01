@@ -83,6 +83,17 @@
     background: linear-gradient(135deg, #17a2b8, #138496);
     color: white;
   }
+
+  .btn-relatorios {
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    color: white;
+  }
+  
+  .btn-relatorios:hover {
+    background: linear-gradient(135deg, #f7931e, #ff6b35);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  }
   
   .btn-ausente {
     background: linear-gradient(135deg, #17a2b8, #138496);

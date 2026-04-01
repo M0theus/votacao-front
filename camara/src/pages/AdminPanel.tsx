@@ -144,6 +144,14 @@ const AdminPanel: React.FC = () => {
           >
             Atualizar
           </button>
+
+          <button 
+            onClick={() => navigate('/admin/relatorios')}
+            className="btn btn-relatorios"
+          >
+             Relatórios
+        </button>
+
         </div>
       </div>
 
